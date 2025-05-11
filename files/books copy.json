@@ -4,31 +4,20 @@
     "author": "저자1",
     "published": 20250101,
     "isbn": "000-00-00-00000-0",
-    "rented": false,
-    "rent_count": 0
+    "rented": false
   },
   {
     "title": "책 제목2",
     "author": "저자2",
     "published": 20250102,
     "isbn": "111-11-11-11111-1",
-    "rented": true,
-    "rent_count": 3
+    "rented": false
   },
   {
     "title": "책 제목3",
     "author": "저자3",
     "published": 20250103,
     "isbn": "222-22-22-22222-2",
-    "rented": true,
-    "rent_count": 1
-  },
-  {
-    "title": "ㄹㅇ",
-    "author": "서수연",
-    "published": "20250510",
-    "isbn": "1234567890",
-    "rented": false,
-    "rent_count": 0
+    "rented": false
   }
 ]
