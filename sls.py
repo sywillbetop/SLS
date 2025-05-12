@@ -12,19 +12,27 @@ from book import Book
 
 lib = Library()
 
-while True:
-	print("\n===== 도서관 메뉴 =====")
-	print("1. 대여 가능한 책 보기")
-	print("2. 책 검색")
-	print("3. 책 대여하기")
-	print("4. 책 반납하기")
-	print("5. 신간 추가하기")
-	print("6. 고서 제거하기")
-	print("7. 종료")
-	print("=====================")
+
+def show_menu():
+	print(f"┌"+"─"*31+"┐")
+	print(f"│{'│':>32}")
+	print(f"│{'도서관 메뉴':>16}{'│':>11}")
+	print(f"│{'│':>32}")
+	print(f"│{'(1) 대여 가능한 책 보기':>19}{'│':>5}")
+	print(f"│{'(2) 책 검색':>12}{'│':>17}")
+	print(f"│{'(3) 책 대여하기':>14}{'│':>13}")
+	print(f"│{'(4) 책 반납하기':>14}{'│':>13}")
+	print(f"│{'(5) 신간 추가하기':>15}{'│':>11}")
+	print(f"│{'(6) 고서 제거하기':>15}{'│':>11}")
+	print(f"│{'(7) 종료':>10}{'│':>20}")
+	print(f"│{'│':>32}")
+	print(f"└"+"─"*31+"┘")
     
-	choice = input("번호를 입력하세요: ")
-    
+	print(f"")
+	choice = input(" 번호를 입력하세요 ▷▷ ")
+	into_menu(choice)
+
+def into_menu(choice):
 	if choice == "1":
 		lib.show_books_available()
 	elif choice == "2":
@@ -44,7 +52,7 @@ while True:
 			lib.book_return(selected.isbn)
 	elif choice == "5":
 		print("====신간 추가하기====")
-		title = input("* 책 제목: ")
+		title = input("책 제목: ")
 		author = input("* 저자: ")
 		published = input("* 출판일: ")
 		isbn = input("*ISBN: ")
@@ -54,6 +62,32 @@ while True:
 		pass
 	elif choice == "7":
 		print("종료합니다.")
-		break
+		pass
 	else:
 		print("잘못된 입력입니다. 다시 선택하세요.")
+
+
+show_menu()
+
+
+'''
+while True:
+	print(f"┌"+"─"*31+"┐")
+	print(f"│{'│':>32}")
+	print(f"│{'도서관 메뉴':>16}{'│':>11}")
+	print(f"│{'│':>32}")
+	print(f"│{'(1) 대여 가능한 책 보기':>19}{'│':>5}")
+	print(f"│{'(2) 책 검색':>12}{'│':>17}")
+	print(f"│{'(3) 책 대여하기':>14}{'│':>13}")
+	print(f"│{'(4) 책 반납하기':>14}{'│':>13}")
+	print(f"│{'(5) 신간 추가하기':>15}{'│':>11}")
+	print(f"│{'(6) 고서 제거하기':>15}{'│':>11}")
+	print(f"│{'(7) 종료':>10}{'│':>20}")
+	print(f"│{'│':>32}")
+	print(f"└"+"─"*31+"┘")
+    
+	print(f"")
+	choice = input(" 번호를 입력하세요 ▷▷ ")
+'''
+    
+	

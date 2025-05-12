@@ -44,7 +44,6 @@ class Library:
 			print("해당 ISBN의 도서를 찾을 수 없습니다.")
 	
 	def show_books_available(self, isMenu=False):
-		print(f"======{self.books}======")
 		print("\n대여 가능한 도서 목록 :")
 		found = False
 		for b in self.books:
@@ -74,6 +73,7 @@ class Library:
 					print("없는 번호 입니다.")
 			except ValueError:
 				print("숫자만 입력해주세요.")
+
 	
 	def rent(self, isbn):
 		for b in self.books:
