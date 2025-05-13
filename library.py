@@ -44,11 +44,14 @@ class Library:
 			print("해당 ISBN의 도서를 찾을 수 없습니다.")
 	
 	def show_books_available(self, isMenu=False):
-		print("\n대여 가능한 도서 목록 :")
+		print(f"{'【 대여 가능한 도서 목록 】':>30}")
+		print(f"┌"+"─"*119+"┐")
+		print(f"│{'도서명':>15}{'│':>15}{'저자':>12}{'│':>11}{'출판일':>12}{'│':>11}{'ISBN':>18}{'│':>13}")
+		print(f"│"+"─"*119+"│")
 		found = False
 		for b in self.books:
 			if not b.rented:
-				print(f"- {b.title} ({b.author}) / {b.isbn}")
+				print(f"{b.title:<5}{b.author:>30}{b.isbn:>18}")
 				found = True
 		if not found:
 			print("대여 가능한 도서가 없습니다.")
@@ -73,6 +76,17 @@ class Library:
 					print("없는 번호 입니다.")
 			except ValueError:
 				print("숫자만 입력해주세요.")
+    
+	def show_books_most_rented(self):
+		rank = sorted(self.books, key=lambda b: b.rent_count, reverse=True)
+		print("==대여가 가장 많이 된 책 순위 (TOP 5)==")
+		print("-" * 60)
+		print(f"{'순위':<6}{'제목':<30}{'저자':<15}{'횟수':>5}")
+		print("-" * 60)
+	
+		for idx, book in enumerate(rank[:5], start=1):
+			print(f"{idx:<6}{book.title:<30}{book.author:<15}{book.rent_count:>5}")
+		print("-" * 60)
 
 	
 	def rent(self, isbn):

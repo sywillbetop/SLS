@@ -24,7 +24,8 @@ def show_menu():
 	print(f"│{'(4) 책 반납하기':>14}{'│':>13}")
 	print(f"│{'(5) 신간 추가하기':>15}{'│':>11}")
 	print(f"│{'(6) 고서 제거하기':>15}{'│':>11}")
-	print(f"│{'(7) 종료':>10}{'│':>20}")
+	print(f"│{'(7) 가장 많이 대여된 책5':>20}{'│':>4}")
+	print(f"│{'(8) 종료':>10}{'│':>20}")
 	print(f"│{'│':>32}")
 	print(f"└"+"─"*31+"┘")
     
@@ -61,6 +62,8 @@ def into_menu(choice):
 	elif choice == "6":
 		pass
 	elif choice == "7":
+		lib.show_books_most_rented()
+	elif choice == "8":
 		print("종료합니다.")
 		pass
 	else:
