@@ -79,13 +79,19 @@ class Library:
     
 	def show_books_most_rented(self):
 		rank = sorted(self.books, key=lambda b: b.rent_count, reverse=True)
-		print("==대여가 가장 많이 된 책 순위 (TOP 5)==")
+		print(f"{'。':>13}{'。':>4}{'。':>4}")
+		print(f"{'│＼':>14}{'／':>1}{'＼':>2}{'／│':>1}")
+		print(f"{'│':>13}{'│':>10}")
+		print(f"{'대여 랭킹 TOP 5':>21}")   
+		print(f"{'└':>13}{'─'*9}┘")
 		print("-" * 60)
-		print(f"{'순위':<6}{'제목':<30}{'저자':<15}{'횟수':>5}")
-		print("-" * 60)
-	
+  
+		print(f"{'─'*95:>14}")
+		print(f"{'순위':>5}{'│':>3}{'도서명':>20}{'│':>17}{'저자':>13}{'│':>12}{'대여 횟수':>10}")
+		print(f"{'─'*95:>14}")
+		
 		for idx, book in enumerate(rank[:5], start=1):
-			print(f"{idx:<6}{book.title:<30}{book.author:<15}{book.rent_count:>5}")
+			print(f"{idx:>5}{book.title:>11}{book.author:>35}{book.rent_count:>21}")
 		print("-" * 60)
 
 	

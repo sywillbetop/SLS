@@ -1,12 +1,9 @@
-'''
-2. book.py
-	2.1 하나의 클래스로 구성되며, 클래스 이름은 Book이다
-	2.2 한 권의 책 정보는 책 제목, 저자, 출판일 그리고 ISBN으로 구성
-	2.3 Book 클래스는 책을 대여하는 메소드 (book_rent)와 읽은 후 
-	반납(book_return)하는 메소드를 가지며, 기타 더 필요한 기능이 
-	있다면 추가해도 좋다
-'''
-
+# title      : 도서명
+# author     : 저자
+# published  : 출판일
+# isbn       : 국제 표준 도서번호 (숫자 xxx-xx-xxxx-xxxx-x)
+# rented     : 대출 여부
+# rent_count : 대출 횟수
 class Book:
     def __init__(self, title, author, published, isbn, rented=False, rent_count=0) :
         self.title = title
