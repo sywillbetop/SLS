@@ -12,17 +12,6 @@ import os
 from book import Book
 
 
-def draw_box(title, items, padding=2):
-	max_len = max(len(title), *(len(item) for item in items))
-	width = max_len + padding * 10
-
-	print("─" * width)
-	print(f"{title:^{width}}")
-	print("─" * width)
-	
-	for item in items:
-		print(f"{item:<{width}}")
-	print("=" * width)
 class Library:
 	"""
 	도서관 관리 클래스입니다.
@@ -60,6 +49,37 @@ class Library:
 		with open(self.file_path, "w", encoding="utf-8") as f:
 			json.dump([b.convert_dict() for b in self.books], f, indent=2, ensure_ascii=False)
 	
+	def draw_box(self, items):
+			
+		padding = 4
+		max_title = max(len(b.title) for b in items)
+		min_title = min(len(b.title) for b in items)
+		max_author = max(len(b.author) for b in items)
+		max_pub = max(len(b.published) for b in items)
+		max_isbn = max(len(b.isbn) for b in items)
+
+		max_width = [max_title, max_author, max_pub, max_isbn]
+
+		print(f"{'─'*70}")
+		print(f"{'No':<5}", end=' ')
+		print(f"{'도서명':<{max_title}}", end=' ')
+		print(f"{'':<{max_title+2}}{'저자':<{max_author}}", end=' ')
+		print(f"{'':<{max_author+2}}{'출판일':<{max_pub}}", end=' ')
+		print(f"{'':<{max_pub}}{'ISBN':<{max_isbn}}")
+		print(f"{'─'*70}")
+		
+		isHead = False
+		idx = 1
+		for b in items:
+			print(f"{idx:<5}", end=' ')
+			idx+=1
+			for i, item in enumerate([b.title, b.author, b.published, b.isbn]):
+				pad = max_width[i]-len(item)
+				width = (max_width[i]+pad) if max_width[i] != len(item) else (max_width[i]+pad+2)
+				print(f"{item:<{width}}{' ':<{padding}}", end=' ')
+			print()
+		return items
+
 	def add_books(self, book):
 		"""
 		새로운 책을 도서관에 추가하고 저장합니다.
@@ -81,6 +101,7 @@ class Library:
 			return
 		
 		print("\n삭제할 도서를 선택하세요:")
+		
 		for i, b in enumerate(self.books, start=1):
 			print(f"{i}. {b.title} ({b.author}) / {b.isbn}")
 		
@@ -98,19 +119,16 @@ class Library:
 				print("숫자만 입력해주세요.")
 				
 	
-	def show_books_available(self, isMenu=False):
+	def show_books_available(self):
 		"""
 		현재 대여 가능한 책 목록을 출력합니다.
-		
-		Args:
-			isMenu (bool): 메뉴용 출력 여부 (기본값: False)
 		"""
-		available_books = [self.books for b in self.books if not b.rented]
-		print(f"~~~~{available_books}")
-		if available_books:
-			draw_box("대여 가능한 도서 목록", available_books)
-		else:
+		books_list = [b for b in self.books if not b.rented]
+		available_books = self.draw_box(books_list)
+		if not available_books:
 			print("대여 가능한 도서가 없습니다.")
+		
+			
 	
 	def show_books_for_choose(self, forWhat):
 		"""
@@ -129,9 +147,13 @@ class Library:
 		else:
 			books_list = []
 		
-		for i, b in enumerate(books_list, start=1):
-			print(f"{i}. {b.title} ({b.author}) / {b.isbn}")
+		#for i, b in enumerate(books_list, start=1):
+		#	print(f"{i}. {b.title} ({b.author}) / {b.isbn}")
+		if not books_list:
+			print("목록이 없습니다.")
+			return
 		
+		self.draw_box(books_list)
 		while True:
 			try:
 				sel = int(input("번호 선택: "))
@@ -201,7 +223,7 @@ class Library:
 					print("이미 반납되어있습니다.")
 				return
 
-	def book_search(self, type, keyword):
+	def book_search(self):
 		"""
 		도서명 또는 저자명 기준으로 책을 검색하여 결과를 출력합니다.
 		
@@ -209,7 +231,34 @@ class Library:
 			type (str): "1"이면 도서명 기준, 그 외는 저자명 기준 검색
 			keyword (str): 검색할 키워드 문자열
 		"""
-		for b in self.books:
-			if(str(b.title if type=="1" else b.author).find(keyword) != -1):
-				print(f"{b.title} / {b.author}")
+		print("\n검색할 항목을 선택해주세요.")
+		while True:
+			try:
+				type = int(input("1. 제목 / 2. 저자: "))
+				if 1<=type<=2:
+					if not (type == 1 or type == 2):
+						print("없는 번호입니다.")
+						continue
+					keyword = input("검색어: ")
+					if len(keyword.strip()) == 0:
+						print("검색어를 입력해주세요.")
+						continue
+					
+					books_list = [b for b in self.books if(str(b.title if type==1 else b.author).find(keyword) != -1)]
+					if not books_list:
+						print("목록이 없습니다.")
+						break
+					
+					self.draw_box(books_list)
+
+				else :
+					print("없는 번호 입니다.")
+				break
+			except ValueError:
+				print("숫자만 입력해주세요.")
+
+	
+	
 			
+			
+

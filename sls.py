@@ -14,7 +14,7 @@ lib = Library()
 
 
 def show_menu():
-	print(f"┌"+"─"*31+"┐")
+	print(f"\n┌"+"─"*31+"┐")
 	print(f"│{'│':>32}")
 	print(f"│{'도서관 메뉴':>16}{'│':>11}")
 	print(f"│{'│':>32}")
@@ -30,38 +30,37 @@ def show_menu():
 	print(f"└"+"─"*31+"┘")
 	
 	print(f"")
-	choice = input(" 번호를 입력하세요 ▷▷ ")
+	choice = input("번호를 입력하세요 ▷▷ ")
 	into_menu(choice)
-
 def into_menu(choice):
 	if choice == "1":
+		print("\n====대여 기능힌 첵 보기====")
 		lib.show_books_available()
 	elif choice == "2":
-		print("====도서 검색====")
-		type = input("1. 제목 / 2. 저자: ")
-		keyword = input("검색어: ")
-		lib.book_search(type, keyword)
+		lib.book_search()
 	elif choice == "3":
-		print("====책 대여하기====")
+		print("\n====책 대여하기====")
 		selected = lib.show_books_for_choose("rent")
 		if selected:
 			lib.rent(selected.isbn)
 	elif choice == "4":
-		print("====책 반납하기====")
+		print("\n====책 반납하기====")
 		selected = lib.show_books_for_choose("return")
 		if selected:
 			lib.book_return(selected.isbn)
 	elif choice == "5":
-		print("====신간 추가하기====")
-		title = input("책 제목: ")
-		author = input("* 저자: ")
-		published = input("* 출판일: ")
-		isbn = input("*ISBN: ")
+		print("\n====신간 추가하기====")
+		title = input("▶︎ 도서명: ")
+		author = input("▶︎ 저자: ")
+		published = input("▶︎ 출판일: ")
+		isbn = input("▶︎ ISBN: ")
 		book = Book(title, author, published, isbn)
 		lib.add_books(book)
 	elif choice == "6":
+		print("\n====고서 제거하기====")
 		lib.remove_books()
 	elif choice == "7":
+		print("\n====대여 순위 Top5====")
 		lib.show_books_most_rented()
 	elif choice == "8":
 		print("종료합니다.")
