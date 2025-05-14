@@ -10,13 +10,41 @@
 import json
 import os
 from book import Book
+
+
+def draw_box(title, items, padding=2):
+	max_len = max(len(title), *(len(item) for item in items))
+	width = max_len + padding * 10
+
+	print("─" * width)
+	print(f"{title:^{width}}")
+	print("─" * width)
+	
+	for item in items:
+		print(f"{item:<{width}}")
+	print("=" * width)
 class Library:
+	"""
+	도서관 관리 클래스입니다.
+	책 추가, 삭제, 대여, 반납, 대여 가능한 책 조회, 대여 랭킹 출력 등 
+	도서관 운영에 필요한 주요 기능들을 제공합니다.
+	"""
 	def __init__(self, file_path="./files/books.json"):
+		"""
+		Library 객체를 초기화합니다.
+		
+		Args:
+			file_path (str): 도서 정보를 저장하는 JSON 파일 경로 (기본값: "./files/books.json")
+		"""
 		self.file_path = file_path
 		self.books = {}
 		self.load_books()
 	
 	def load_books(self):
+		"""
+		저장된 JSON 파일에서 도서 정보를 불러와서 books 리스트를 초기화합니다.
+		파일이 없거나 비어있으면 빈 리스트로 초기화합니다.
+		"""
 		if os.path.exists(self.file_path) and os.stat(self.file_path).st_size > 0 :
 			with open(self.file_path, "r", encoding="utf-8") as f:
 				data = json.load(f)
@@ -26,37 +54,74 @@ class Library:
 			self.books = {}
 		
 	def update_books(self):
+		"""
+		현재 books 리스트의 도서 정보를 JSON 파일에 저장합니다.
+		"""
 		with open(self.file_path, "w", encoding="utf-8") as f:
 			json.dump([b.convert_dict() for b in self.books], f, indent=2, ensure_ascii=False)
 	
 	def add_books(self, book):
+		"""
+		새로운 책을 도서관에 추가하고 저장합니다.
+		
+		Args:
+			book (Book): 추가할 Book 객체
+		"""
 		self.books.append(book)
 		print(f"'{book.title}' 추가 완료.")
 		self.update_books()
 	
-	def remove_books(self, isbn):
-		prev = len(self.books)
-		self.books = [b for b in self.books if b.isbn != isbn]
-		if len(self.books) < prev:
-			print(f"{isbn} 도서 삭제 완료.")
-			self.update_books()
-		else:
-			print("해당 ISBN의 도서를 찾을 수 없습니다.")
+	def remove_books(self):
+		"""
+		책 목록을 번호로 보여주고, 선택된 책을 삭제합니다.
+		삭제 후 JSON 파일을 갱신합니다.
+		"""
+		if not self.books:
+			print("삭제할 도서가 없습니다.")
+			return
+		
+		print("\n삭제할 도서를 선택하세요:")
+		for i, b in enumerate(self.books, start=1):
+			print(f"{i}. {b.title} ({b.author}) / {b.isbn}")
+		
+		while True:
+			try:
+				choice = int(input("번호 선택: "))
+				if 1 <= choice <= len(self.books):
+					removed_book = self.books.pop(choice - 1)
+					print(f"'{removed_book.title}' 도서 삭제 완료.")
+					self.update_books()
+					break
+				else:
+					print("없는 번호입니다.")
+			except ValueError:
+				print("숫자만 입력해주세요.")
+				
 	
 	def show_books_available(self, isMenu=False):
-		print(f"{'【 대여 가능한 도서 목록 】':>30}")
-		print(f"┌"+"─"*119+"┐")
-		print(f"│{'도서명':>15}{'│':>15}{'저자':>12}{'│':>11}{'출판일':>12}{'│':>11}{'ISBN':>18}{'│':>13}")
-		print(f"│"+"─"*119+"│")
-		found = False
-		for b in self.books:
-			if not b.rented:
-				print(f"{b.title:<5}{b.author:>30}{b.isbn:>18}")
-				found = True
-		if not found:
+		"""
+		현재 대여 가능한 책 목록을 출력합니다.
+		
+		Args:
+			isMenu (bool): 메뉴용 출력 여부 (기본값: False)
+		"""
+		available_books = [self.books for b in self.books if not b.rented]
+		print(f"~~~~{available_books}")
+		if available_books:
+			draw_box("대여 가능한 도서 목록", available_books)
+		else:
 			print("대여 가능한 도서가 없습니다.")
 	
 	def show_books_for_choose(self, forWhat):
+		"""
+		대여 또는 반납을 위해 선택 가능한 책 목록을 출력하고 사용자가 선택한 책을 반환합니다.
+		
+		Args:
+			forWhat (str): "rent"이면 대여 가능한 책, "return"이면 대여 중인 책 목록을 보여줌
+		
+		Returns:
+			Book: 사용자가 선택한 Book 객체
+		"""
 		if forWhat == "rent":
 			books_list = [b for b in self.books if not b.rented]
 		elif forWhat == "return":
@@ -78,6 +143,9 @@ class Library:
 				print("숫자만 입력해주세요.")
     
 	def show_books_most_rented(self):
+		"""
+		대여 횟수 기준 상위 5권의 책을 랭킹 형식으로 출력합니다.
+		"""
 		rank = sorted(self.books, key=lambda b: b.rent_count, reverse=True)
 		print(f"{'。':>13}{'。':>4}{'。':>4}")
 		print(f"{'│＼':>14}{'／':>1}{'＼':>2}{'／│':>1}")
@@ -96,6 +164,14 @@ class Library:
 
 	
 	def rent(self, isbn):
+		"""
+		ISBN에 해당하는 책을 대여 처리합니다.
+		이미 대여 중인 경우 안내 메시지를 출력합니다.
+		대여 성공 시 대여 횟수를 증가시키고 저장합니다.
+		
+		Args:
+			isbn (str): 대여할 책의 ISBN 번호
+		"""
 		for b in self.books:
 			if b.isbn == isbn:
 				if not b.rented:
@@ -107,6 +183,14 @@ class Library:
 				return
 		
 	def book_return(self, isbn):
+		"""
+		ISBN에 해당하는 책을 반납 처리합니다.
+		이미 반납된 책인 경우 안내 메시지를 출력합니다.
+		반납 성공 시 대여 횟수를 증가시키고 저장합니다.
+		
+		Args:
+			isbn (str): 반납할 책의 ISBN 번호
+		"""
 		for b in self.books:
 			if b.isbn == isbn:
 				if b.rented:
@@ -118,14 +202,14 @@ class Library:
 				return
 
 	def book_search(self, type, keyword):
+		"""
+		도서명 또는 저자명 기준으로 책을 검색하여 결과를 출력합니다.
+		
+		Args:
+			type (str): "1"이면 도서명 기준, 그 외는 저자명 기준 검색
+			keyword (str): 검색할 키워드 문자열
+		"""
 		for b in self.books:
 			if(str(b.title if type=="1" else b.author).find(keyword) != -1):
 				print(f"{b.title} / {b.author}")
 			
-
-				
-
-               
-             
-               
-		

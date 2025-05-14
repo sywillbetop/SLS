@@ -22,13 +22,5 @@
     "isbn": "222-22-22-22222-2",
     "rented": true,
     "rent_count": 1
-  },
-  {
-    "title": "ㄹㅇ",
-    "author": "서수연",
-    "published": "20250510",
-    "isbn": "1234567890",
-    "rented": false,
-    "rent_count": 0
   }
 ]

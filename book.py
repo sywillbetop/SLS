@@ -1,43 +1,81 @@
-# title      : 도서명
-# author     : 저자
-# published  : 출판일
-# isbn       : 국제 표준 도서번호 (숫자 xxx-xx-xxxx-xxxx-x)
-# rented     : 대출 여부
-# rent_count : 대출 횟수
 class Book:
-    def __init__(self, title, author, published, isbn, rented=False, rent_count=0) :
+    """
+    도서 정보를 관리하는 클래스.
+
+    Attributes:
+        title (str): 도서명
+        author (str): 저자
+        published (str): 출판일
+        isbn (str): 국제 표준 도서번호 (숫자 xxx-xx-xxxx-xxxx-x)
+        rented (bool): 대출 여부
+        rent_count (int): 대출 횟수
+    """
+
+    def __init__(self, title, author, published, isbn, rented=False, rent_count=0):
+        """
+        Book 객체를 초기화합니다.
+
+        Args:
+            title (str): 도서명
+            author (str): 저자
+            published (str): 출판일
+            isbn (str): 국제 표준 도서번호
+            rented (bool, optional): 대출 여부. 기본값은 False.
+            rent_count (int, optional): 대출 횟수. 기본값은 0.
+        """
         self.title = title
         self.author = author
         self.published = published
         self.isbn = isbn
         self.rented = rented
         self.rent_count = rent_count
-    
+
     def __str__(self):
+        """
+        도서 정보를 문자열로 반환합니다.
+
+        Returns:
+            str: 도서명, 저자, 출판일, ISBN, 대출 상태를 포함한 문자열
+        """
         return f"{self.title} / {self.author} / {self.published} / {self.isbn} / {'대출중' if self.rented else '대여가능'}"
-    
+
     def book_rent(self):
+        """도서를 대출 처리하고 대출 완료 메시지를 출력합니다."""
         self.rented = True
         print(f"{self.title} 대출 완료되었습니다.")
-        
+
     def book_return(self):
+        """도서 반납 처리하고 반납 완료 메시지를 출력합니다."""
         self.rented = False
         print(f"{self.title} 반납 완료되었습니다.")
-        
-    # 추후 json으로 책 정보 저장 하기 위해 딕셔너리를 변환해주는 메소드
+
     def convert_dict(self):
+        """도서 정보를 딕셔너리 형태로 변환합니다.
+
+        Returns:
+            dict: 도서 정보가 담긴 딕셔너리
+        """
         return {
-            "title"     : self.title,
-            "author"    : self.author,
-            "published" : self.published,
-            "isbn"      : self.isbn,
-            "rented"    : self.rented,
-            "rent_count" : self.rent_count
+            "title": self.title,
+            "author": self.author,
+            "published": self.published,
+            "isbn": self.isbn,
+            "rented": self.rented,
+            "rent_count": self.rent_count
         }
-    
+
     @staticmethod
     def from_dict(data):
-        return Book (
+        """
+        딕셔너리 데이터를 바탕으로 Book 객체를 생성합니다.
+
+        Args:
+            data (dict): 도서 정보가 담긴 딕셔너리
+
+        Returns:
+            Book: 생성된 Book 객체
+        """
+        return Book(
             title=data["title"],
             author=data["author"],
             published=data["published"],
@@ -45,4 +83,3 @@ class Book:
             rented=data["rented"],
             rent_count=data["rent_count"]
         )
-

@@ -28,7 +28,7 @@ def show_menu():
 	print(f"│{'(8) 종료':>10}{'│':>20}")
 	print(f"│{'│':>32}")
 	print(f"└"+"─"*31+"┘")
-    
+	
 	print(f"")
 	choice = input(" 번호를 입력하세요 ▷▷ ")
 	into_menu(choice)
@@ -60,37 +60,19 @@ def into_menu(choice):
 		book = Book(title, author, published, isbn)
 		lib.add_books(book)
 	elif choice == "6":
-		pass
+		lib.remove_books()
 	elif choice == "7":
 		lib.show_books_most_rented()
 	elif choice == "8":
 		print("종료합니다.")
-		pass
+		return
 	else:
 		print("잘못된 입력입니다. 다시 선택하세요.")
+	
 
 
-show_menu()
+if __name__ == "__main__":
+	show_menu()
 
 
-'''
-while True:
-	print(f"┌"+"─"*31+"┐")
-	print(f"│{'│':>32}")
-	print(f"│{'도서관 메뉴':>16}{'│':>11}")
-	print(f"│{'│':>32}")
-	print(f"│{'(1) 대여 가능한 책 보기':>19}{'│':>5}")
-	print(f"│{'(2) 책 검색':>12}{'│':>17}")
-	print(f"│{'(3) 책 대여하기':>14}{'│':>13}")
-	print(f"│{'(4) 책 반납하기':>14}{'│':>13}")
-	print(f"│{'(5) 신간 추가하기':>15}{'│':>11}")
-	print(f"│{'(6) 고서 제거하기':>15}{'│':>11}")
-	print(f"│{'(7) 종료':>10}{'│':>20}")
-	print(f"│{'│':>32}")
-	print(f"└"+"─"*31+"┘")
-    
-	print(f"")
-	choice = input(" 번호를 입력하세요 ▷▷ ")
-'''
-    
 	
