@@ -49,7 +49,9 @@ class Library:
 		with open(self.file_path, "w", encoding="utf-8") as f:
 			json.dump([b.convert_dict() for b in self.books], f, indent=2, ensure_ascii=False)
 	
-	def draw_books(self, items):
+	def draw_books(self, items, isRanking=False):
+		if not items:
+			print("\n\033[91m]! 데이터가 없습니다 !")
 			
 		padding = 4
 		max_title = max(len(b.title) for b in items)
@@ -60,76 +62,47 @@ class Library:
 
 		max_width = [max_title, max_author, max_pub, max_isbn]
 
-		print(f"{'─'*70}")
-		print(f"{'No':<5}", end=' ')
+		print(f"\033[0m{'─'*90}")
+		print(f"{('순위' if isRanking else 'No'):<5}", end=' ')
 		print(f"{'도서명':<{max_title}}", end=' ')
 		print(f"{'':<{max_title+2}}{'저자':<{max_author}}", end=' ')
 		print(f"{'':<{max_author+2}}{'출판일':<{max_pub}}", end=' ')
 		print(f"{'':<{max_pub}}{'ISBN':<{max_isbn}}")
-		print(f"{'─'*70}")
+		print(f"{'─'*90}")
 		
 		isHead = False
 		idx = 1
 		for b in items:
-			print(f"{idx:<5}", end=' ')
+			if isRanking:
+				print(f"\033[9{1 if idx==1 else 0}m{idx:<5}", end=' ')
+			else:
+				print(f"\033[0m{idx:<5}", end=' ')
 			idx+=1
 			for i, item in enumerate([b.title, b.author, b.published, b.isbn]):
 				pad = max_width[i]-len(item)
 				width = (max_width[i]+pad) if max_width[i] != len(item) else (max_width[i]+pad+2)
-				print(f"{item:<{width}}{' ':<{padding}}", end=' ')
+				if isRanking:
+					print(f"{item:<{width}}{' ':<{padding}}", end=' ')
+				else :
+					print(f"{item:<{width}}{' ':<{padding}}", end=' ')
 			print()
 		return items
 
-	def add_books(self, book):
-		"""
-		새로운 책을 도서관에 추가하고 저장합니다.
-		
-		Args:
-			book (Book): 추가할 Book 객체
-		"""
-		self.books.append(book)
-		print(f"'{book.title}' 추가 완료.")
-		self.update_books()
-	
-	def remove_books(self):
-		"""
-		책 목록을 번호로 보여주고, 선택된 책을 삭제합니다.
-		삭제 후 JSON 파일을 갱신합니다.
-		"""
-		if not self.books:
-			print("삭제할 도서가 없습니다.")
-			return
-		
-		print("\n삭제할 도서를 선택하세요:")
-		
-		for i, b in enumerate(self.books, start=1):
-			print(f"{i}. {b.title} ({b.author}) / {b.isbn}")
-		
-		while True:
-			try:
-				choice = int(input("번호 선택: "))
-				if 1 <= choice <= len(self.books):
-					removed_book = self.books.pop(choice - 1)
-					print(f"'{removed_book.title}' 도서 삭제 완료.")
-					self.update_books()
-					break
-				else:
-					print("없는 번호입니다.")
-			except ValueError:
-				print("숫자만 입력해주세요.")
-				
-	
 	def show_books_available(self):
 		"""
-		현재 대여 가능한 책 목록을 출력합니다.
+		현재 대여 가능한 도서 목록을 출력합니다.
 		"""
+		print(f"\n\033[93m↓ 현재 대여 가능한 도서 목록입니다 ↓\n")
+  
 		books_list = [b for b in self.books if not b.rented]
 		available_books = self.draw_books(books_list)
 		if not available_books:
-			print("대여 가능한 도서가 없습니다.")
-		
-			
-	
+			print("\033[91m\n※ 대여 가능한 도서가 없습니다. ※")
+
+		return self.doContinue()
+
+
+
 	def show_books_for_choose(self, forWhat):
 		"""
 		대여 또는 반납을 위해 선택 가능한 책 목록을 출력하고 사용자가 선택한 책을 반환합니다.
@@ -140,7 +113,7 @@ class Library:
 		Returns:
 			Book: 사용자가 선택한 Book 객체
 		"""
-		print("\n\n     책")
+		print(f"\n\033[93m↓ {'대여' if forWhat=="rent" else '반납'}하실 도서의 번호를 선택해주세요. ↓\n")
 
 		if forWhat == "rent":
 			books_list = [b for b in self.books if not b.rented]
@@ -149,44 +122,21 @@ class Library:
 		else:
 			books_list = []
 		
-		#for i, b in enumerate(books_list, start=1):
-		#	print(f"{i}. {b.title} ({b.author}) / {b.isbn}")
 		if not books_list:
-			print("목록이 없습니다.")
+			print("\033[91m\n※ 도서가 없습니다. ※")
 			return
 		
 		self.draw_books(books_list)
 		while True:
 			try:
-				sel = int(input("번호 선택: "))
+				sel = int(input("\n\033[95m번호 선택: "))
 				if 1<= sel <= len(books_list):
 					return books_list[sel-1]
 				else:
-					print("없는 번호 입니다.")
+					print("\033[91m\n!! 없는 번호 입니다 !!")
 			except ValueError:
-				print("숫자만 입력해주세요.")
+				print("\033[91m\n!! 숫자만 입력해주세요 !!")
     
-	def show_books_most_rented(self):
-		"""
-		대여 횟수 기준 상위 5권의 책을 랭킹 형식으로 출력합니다.
-		"""
-		rank = sorted(self.books, key=lambda b: b.rent_count, reverse=True)
-		print(f"{'。':>13}{'。':>4}{'。':>4}")
-		print(f"{'│＼':>14}{'／':>1}{'＼':>2}{'／│':>1}")
-		print(f"{'│':>13}{'│':>10}")
-		print(f"{'대여 랭킹 TOP 5':>21}")   
-		print(f"{'└':>13}{'─'*9}┘")
-		print("-" * 60)
-  
-		print(f"{'─'*95:>14}")
-		print(f"{'순위':>5}{'│':>3}{'도서명':>20}{'│':>17}{'저자':>13}{'│':>12}{'대여 횟수':>10}")
-		print(f"{'─'*95:>14}")
-		
-		for idx, book in enumerate(rank[:5], start=1):
-			print(f"{idx:>5}{book.title:>11}{book.author:>35}{book.rent_count:>21}")
-		print("-" * 60)
-
-	
 	def rent(self, isbn):
 		"""
 		ISBN에 해당하는 책을 대여 처리합니다.
@@ -203,8 +153,10 @@ class Library:
 					b.rent_count += 1
 					self.update_books()
 				else:
-					print("이미 대출 중입니다.")
-				return
+					print("\033[91m\n※ 이미 대여중인 도서입니다. ※")
+					return
+ 
+				return self.doContinue()
 		
 	def book_return(self, isbn):
 		"""
@@ -222,9 +174,82 @@ class Library:
 					b.rent_count += 1
 					self.update_books()
 				else:
-					print("이미 반납되어있습니다.")
-				return
+					print("\033[91m\n※ 이미 반납되어있습니다 ※")
+					return
+ 
+				return self.doContinue()
 
+
+
+	def add_books(self, book):
+		"""
+		새로운 책을 도서관에 추가하고 저장합니다.
+		
+		Args:
+			book (Book): 추가할 Book 객체
+		"""
+		print(f"\n\033[93m↓ 추가할 도서의 정보를 입력해주세요 ↓\n")
+		title = input("\033[95m▶︎ 도서명: ")
+		author = input("\033[95m▶︎ 저자: ")
+		published = input("\033[95m▶︎ 출판일: ")
+		isbn = input("\033[95m▶︎ ISBN: ")
+		book = Book(title, author, published, isbn)
+		self.books.append(book)
+		print(f"\n\033[96m[ {book.title} ] 추가 완료되었습니다.")
+		self.update_books()
+
+		return self.doContinue()
+	
+	def remove_books(self):
+		"""
+		책 목록을 번호로 보여주고, 선택된 책을 삭제합니다.
+		삭제 후 JSON 파일을 갱신합니다.
+		"""
+		
+		books_list = [b for b in self.books]
+		if not books_list:
+			print("\033[91m\n※ 도서가 없습니다. ※")
+			return
+		
+		self.draw_books(books_list)
+  
+		print(f"\n\033[91m↓ 제거할 도서의 번호를 입력해주세요 ↓\n")
+		
+		while True:
+			try:
+				sel = int(input("\033[95m번호 선택: "))
+				if 1 <= sel <= len(self.books):
+					removed_book = books_list.pop(sel - 1)
+					print(f"\n\033[96m[ {removed_book.title} ] 제거 완료되었습니다.")
+					self.update_books()
+					break
+				else:
+					print("\033[91m\n!! 없는 번호 입니다 !!")
+			except ValueError:
+				print("\033[91m\n!! 숫자만 입력해주세요 !!")
+    
+		return self.doContinue()
+
+
+	
+	def show_books_most_rented(self):
+		"""
+		대여 횟수 기준 상위 5권의 책을 랭킹 형식으로 출력합니다.
+		"""
+  
+		rank = sorted(self.books, key=lambda b: b.rent_count, reverse=True)
+		
+		print(f"\033[93m{'。':>13}{'。':>4}{'。':>4}")
+		print(f"{'│＼':>14}{'／':>1}{'＼':>2}{'／│':>1}")
+		print(f"{'│':>13}{'│':>10}")
+		print(f"{'대여 랭킹 TOP 5':>21}")   
+		print(f"{'└':>13}{'─'*9}┘")
+  
+		self.draw_books(rank[:5], True)
+
+		return self.doContinue()
+
+	
 	def book_search(self):
 		"""
 		도서명 또는 저자명 기준으로 책을 검색하여 결과를 출력합니다.
@@ -233,31 +258,40 @@ class Library:
 			type (str): "1"이면 도서명 기준, 그 외는 저자명 기준 검색
 			keyword (str): 검색할 키워드 문자열
 		"""
-		print("\n검색할 항목을 선택해주세요.")
+		print(f"\n\033[93m↓ 검색할 항목을 선택해주세요. ↓\n")
 		while True:
 			try:
-				type = int(input("1. 제목 / 2. 저자: "))
+				type = int(input("\033[95m1. 제목 / 2. 저자: "))
 				if 1<=type<=2:
-					if not (type == 1 or type == 2):
-						print("없는 번호입니다.")
-						continue
-					keyword = input("검색어: ")
+					keyword = input("\n▶ 검색어: ")
 					if len(keyword.strip()) == 0:
-						print("검색어를 입력해주세요.")
+						print("\033[91m\n※ 검색어를 입력해주세요 ※")
 						continue
 					
 					books_list = [b for b in self.books if(str(b.title if type==1 else b.author).find(keyword) != -1)]
 					if not books_list:
-						print("목록이 없습니다.")
+						print("\033[91m\n※ 해당하는 도서가 없습니다 ※")
 						break
 					
 					self.draw_books(books_list)
-
+					break
 				else :
-					print("없는 번호 입니다.")
-				break
+					print("\033[91m!! 없는 번호 입니다 !!")
+					continue
 			except ValueError:
-				print("숫자만 입력해주세요.")
+				print("\033[91m!! 숫자만 입력해주세요 !!\n")
+				continue
+
+		return self.doContinue()
+  
+  
+	@staticmethod	
+	def doContinue():
+		isKeep = input(f"\033[90m\n\b프로그램을 계속 하시겠습니까? (y/n) :")
+		if isKeep.upper() == "Y":
+			return True
+		else:
+			return False
 
 	
 	

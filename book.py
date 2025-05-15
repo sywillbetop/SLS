@@ -7,8 +7,8 @@ class Book:
         author (str): 저자
         published (str): 출판일
         isbn (str): 국제 표준 도서번호 (숫자 xxx-xx-xxxx-xxxx-x)
-        rented (bool): 대출 여부
-        rent_count (int): 대출 횟수
+        rented (bool): 대여 여부
+        rent_count (int): 대여 횟수
     """
 
     def __init__(self, title, author, published, isbn, rented=False, rent_count=0):
@@ -20,8 +20,8 @@ class Book:
             author (str): 저자
             published (str): 출판일
             isbn (str): 국제 표준 도서번호
-            rented (bool, optional): 대출 여부. 기본값은 False.
-            rent_count (int, optional): 대출 횟수. 기본값은 0.
+            rented (bool, optional): 대여 여부. 기본값은 False.
+            rent_count (int, optional): 대여 횟수. 기본값은 0.
         """
         self.title = title
         self.author = author
@@ -35,19 +35,19 @@ class Book:
         도서 정보를 문자열로 반환합니다.
 
         Returns:
-            str: 도서명, 저자, 출판일, ISBN, 대출 상태를 포함한 문자열
+            str: 도서명, 저자, 출판일, ISBN, 대여 상태를 포함한 문자열
         """
-        return f"{self.title} / {self.author} / {self.published} / {self.isbn} / {'대출중' if self.rented else '대여가능'}"
+        return f"{self.title} / {self.author} / {self.published} / {self.isbn} / {'대여중' if self.rented else '대여가능'}"
 
     def book_rent(self):
-        """도서를 대출 처리하고 대출 완료 메시지를 출력합니다."""
+        """도서를 대여 처리하고 대여 완료 메시지를 출력합니다."""
         self.rented = True
-        print(f"{self.title} 대출 완료되었습니다.")
+        print(f"\n\033[96m[ {self.title} ] 대여 완료되었습니다.")
 
     def book_return(self):
         """도서 반납 처리하고 반납 완료 메시지를 출력합니다."""
         self.rented = False
-        print(f"{self.title} 반납 완료되었습니다.")
+        print(f"\n\033[96m[ {self.title} ] 반납 완료되었습니다.")
 
     def convert_dict(self):
         """도서 정보를 딕셔너리 형태로 변환합니다.

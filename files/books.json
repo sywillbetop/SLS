@@ -4,8 +4,8 @@
     "author": "저자1",
     "published": "20250101",
     "isbn": "000-00-00-00000-0",
-    "rented": false,
-    "rent_count": 4
+    "rented": true,
+    "rent_count": 7
   },
   {
     "title": "책 제목2",
@@ -13,15 +13,15 @@
     "published": "20250102",
     "isbn": "111-11-11-11111-1",
     "rented": true,
-    "rent_count": 5
+    "rent_count": 11
   },
   {
     "title": "책 제목3",
     "author": "저자3",
     "published": "20250103",
     "isbn": "222-22-22-22222-2",
-    "rented": true,
-    "rent_count": 1
+    "rented": false,
+    "rent_count": 2
   },
   {
     "title": "안녕",
@@ -29,14 +29,22 @@
     "published": "20230405",
     "isbn": "12121-2-232-5-432",
     "rented": false,
-    "rent_count": 0
+    "rent_count": 2
   },
   {
     "title": "ㅎㅇ",
     "author": "ㅎㅇ",
     "published": "ㅎㅇ",
     "isbn": "ㅎㅇ",
-    "rented": true,
-    "rent_count": 1
+    "rented": false,
+    "rent_count": 4
+  },
+  {
+    "title": "test",
+    "author": "test",
+    "published": "test",
+    "isbn": "test",
+    "rented": false,
+    "rent_count": 2
   }
 ]

@@ -12,66 +12,87 @@ from book import Book
 
 lib = Library()
 
+def printStopMsg():
+    print("\033[91m\n>>>>>>>> 프로그램을 종료합니다 <<<<<<<<<<\033[0m")
 
 def show_menu():
-	print(f"\n┌"+"─"*31+"┐")
-	print(f"│{'│':>32}")
-	print(f"│{'도서관 메뉴':>16}{'│':>11}")
-	print(f"│{'│':>32}")
-	print(f"│{'(1) 대여 가능한 책 보기':>19}{'│':>5}")
-	print(f"│{'(2) 책 검색':>12}{'│':>17}")
-	print(f"│{'(3) 책 대여하기':>14}{'│':>13}")
-	print(f"│{'(4) 책 반납하기':>14}{'│':>13}")
-	print(f"│{'(5) 신간 추가하기':>15}{'│':>11}")
-	print(f"│{'(6) 고서 제거하기':>15}{'│':>11}")
-	print(f"│{'(7) 가장 많이 대여된 책5':>20}{'│':>4}")
-	print(f"│{'(8) 종료':>10}{'│':>20}")
-	print(f"│{'│':>32}")
-	print(f"└"+"─"*31+"┘")
-	
-	print(f"")
-	choice = input("번호를 입력하세요 ▷▷ ")
-	into_menu(choice)
-def into_menu(choice):
-	if choice == "1":
-		print("\n====대여 기능힌 첵 보기====")
-		lib.show_books_available()
-	elif choice == "2":
-		lib.book_search()
-	elif choice == "3":
-		print("\n====책 대여하기====")
-		selected = lib.show_books_for_choose("rent")
-		if selected:
-			lib.rent(selected.isbn)
-	elif choice == "4":
-		print("\n====책 반납하기====")
-		selected = lib.show_books_for_choose("return")
-		if selected:
-			lib.book_return(selected.isbn)
-	elif choice == "5":
-		print("\n====신간 추가하기====")
-		title = input("▶︎ 도서명: ")
-		author = input("▶︎ 저자: ")
-		published = input("▶︎ 출판일: ")
-		isbn = input("▶︎ ISBN: ")
-		book = Book(title, author, published, isbn)
-		lib.add_books(book)
-	elif choice == "6":
-		print("\n====고서 제거하기====")
-		lib.remove_books()
-	elif choice == "7":
-		print("\n====대여 순위 Top5====")
-		lib.show_books_most_rented()
-	elif choice == "8":
-		print("종료합니다.")
-		return
-	else:
-		print("잘못된 입력입니다. 다시 선택하세요.")
+	while True:
+		print(f"\033[92m\n┌"+"─"*31+"┐")
+		print(f"│{'│':>32}")
+		print(f"│{'도서관 메뉴':>16}{'│':>11}")
+		print(f"│{'│':>32}")
+		print(f"│{'(1) 대여 가능한 책 보기':>19}{'│':>5}")
+		print(f"│{'(2) 책 검색':>12}{'│':>17}")
+		print(f"│{'(3) 책 대여하기':>14}{'│':>13}")
+		print(f"│{'(4) 책 반납하기':>14}{'│':>13}")
+		print(f"│{'(5) 신간 추가하기':>15}{'│':>11}")
+		print(f"│{'(6) 고서 제거하기':>15}{'│':>11}")
+		print(f"│{'(7) 가장 많이 대여된 책5':>20}{'│':>4}")
+		print(f"│{'(8) 종료':>10}{'│':>20}")
+		print(f"│{'│':>32}")
+		print(f"└"+"─"*31+"┘")
+		choice = input("\n\033[93m메뉴 번호를 입력하세요 ▷▷ ")
+		if choice == "1":
+			if lib.show_books_available():
+				continue
+			else:
+				printStopMsg()
+				break
+		elif choice == "2":
+			if lib.book_search():
+				continue
+			else:
+				printStopMsg()
+				break
+		elif choice == "3":
+			selected = lib.show_books_for_choose("rent")
+			if selected:
+				if lib.rent(selected.isbn):
+					continue
+				else:
+					printStopMsg()
+					break
+		elif choice == "4":
+			selected = lib.show_books_for_choose("return")
+			if selected:
+				if lib.book_return(selected.isbn):
+					continue
+				else:
+					printStopMsg()
+					break
+		elif choice == "5":
+			if lib.add_books():
+				continue
+			else:
+				printStopMsg()
+				break
+		elif choice == "6":
+			if lib.remove_books():
+				continue
+			else:
+				printStopMsg()
+				break
+		elif choice == "7":
+			if lib.show_books_most_rented():
+				continue
+			else:
+				printStopMsg()
+				break
+		elif choice == "8":
+			yn = input("\033[90m\n프로그램을 종료하시겠습니까? (y/n):")
+			if yn.upper()=="Y":
+				printStopMsg()
+				break
+			else :
+				continue
+		else:
+			print("잘못된 입력입니다. 다시 선택하세요.")
+			continue
 	
 
 
 if __name__ == "__main__":
-	show_menu()
+    show_menu()
 
 
 	
