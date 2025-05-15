@@ -181,7 +181,7 @@ class Library:
 
 
 
-	def add_books(self, book):
+	def add_books(self):
 		"""
 		새로운 책을 도서관에 추가하고 저장합니다.
 		

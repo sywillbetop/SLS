@@ -46,5 +46,13 @@
     "isbn": "test",
     "rented": false,
     "rent_count": 2
+  },
+  {
+    "title": "도서제목",
+    "author": "저자명",
+    "published": "20240505",
+    "isbn": "555-121123-4574-121",
+    "rented": false,
+    "rent_count": 0
   }
 ]
