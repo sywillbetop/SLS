@@ -1,57 +1,65 @@
 [
   {
-    "title": "책제목입니다책제목",
-    "author": "저자1",
-    "published": "20250101",
-    "isbn": "000-00-00-00000-0",
-    "rented": true,
-    "rent_count": 7
+    "title": "청춘의 독서",
+    "author": "유시민",
+    "published": "20250422",
+    "isbn": "9788901294742",
+    "rented": false,
+    "rent_count": 0
   },
   {
-    "title": "책 제목2",
-    "author": "저자2",
-    "published": "20250102",
-    "isbn": "111-11-11-11111-1",
-    "rented": true,
-    "rent_count": 11
-  },
-  {
-    "title": "책 제목3",
-    "author": "저자3",
-    "published": "20250103",
-    "isbn": "222-22-22-22222-2",
+    "title": "점프 투 파이썬",
+    "author": "박응용",
+    "published": "20230615",
+    "isbn": "9791163034735",
     "rented": false,
     "rent_count": 2
   },
   {
-    "title": "안녕",
-    "author": "하세요",
-    "published": "20230405",
-    "isbn": "12121-2-232-5-432",
+    "title": "부의 전략 수업",
+    "author": "폴 포돌스키",
+    "published": "20250507",
+    "isbn": "9791193262474",
     "rented": false,
-    "rent_count": 2
+    "rent_count": 0
   },
   {
-    "title": "ㅎㅇ",
-    "author": "ㅎㅇ",
-    "published": "ㅎㅇ",
-    "isbn": "ㅎㅇ",
+    "title": "클린 코드",
+    "author": "로버트 C. 마틴",
+    "published": "20131224",
+    "isbn": "9788966260959",
     "rented": false,
-    "rent_count": 4
+    "rent_count": 0
   },
   {
-    "title": "test",
-    "author": "test",
-    "published": "test",
-    "isbn": "test",
+    "title": "궁극의 아이",
+    "author": "장용민",
+    "published": "20130308",
+    "isbn": "9788954620680",
     "rented": false,
-    "rent_count": 2
+    "rent_count": 0
   },
   {
-    "title": "도서제목",
-    "author": "저자명",
-    "published": "20240505",
-    "isbn": "555-121123-4574-121",
+    "title": "자바의 정석",
+    "author": "남궁성",
+    "published": "20080310",
+    "isbn": "9788995379431",
+    "rented": false,
+    "rent_count": 0
+  },
+  {
+    "title": "빛과 실",
+    "author": "한강",
+    "published": "20250418",
+    "isbn": "9788932043562",
+    "rented": false,
+    "rent_count": 0
+  },
+  {
+    "title": "빛과 실",
+    "author": "한강",
+    "published": "20250403",
+    "isbn": "950121851845",
     "rented": false,
     "rent_count": 0
   }

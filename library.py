@@ -61,11 +61,11 @@ class Library:
 		max_isbn = max(len(b.isbn) for b in items)
 
 		max_width = [max_title, max_author, max_pub, max_isbn]
-
+		
 		print(f"\033[0m{'─'*90}")
 		print(f"{('순위' if isRanking else 'No'):<5}", end=' ')
 		print(f"{'도서명':<{max_title}}", end=' ')
-		print(f"{'':<{max_title+2}}{'저자':<{max_author}}", end=' ')
+		print(f"{'':<{max_title}}{'저자':<{max_author}}", end=' ')
 		print(f"{'':<{max_author+2}}{'출판일':<{max_pub}}", end=' ')
 		print(f"{'':<{max_pub}}{'ISBN':<{max_isbn}}")
 		print(f"{'─'*90}")
@@ -80,11 +80,7 @@ class Library:
 			idx+=1
 			for i, item in enumerate([b.title, b.author, b.published, b.isbn]):
 				pad = max_width[i]-len(item)
-				width = (max_width[i]+pad) if max_width[i] != len(item) else (max_width[i]+pad+2)
-				if isRanking:
-					print(f"{item:<{width}}{' ':<{padding}}", end=' ')
-				else :
-					print(f"{item:<{width}}{' ':<{padding}}", end=' ')
+				print(f"{item}{' '*(max_width[i]+pad):<0}", end=' ')
 			print()
 		return items
 
@@ -123,7 +119,7 @@ class Library:
 			books_list = []
 		
 		if not books_list:
-			print("\033[91m\n※ 도서가 없습니다. ※")
+			print(f"\033[91m\n※ {'대여' if forWhat=="rent" else '반납'}할 도서가 없습니다. ※")
 			return
 		
 		self.draw_books(books_list)
@@ -287,11 +283,16 @@ class Library:
   
 	@staticmethod	
 	def doContinue():
-		isKeep = input(f"\033[90m\n\b프로그램을 계속 하시겠습니까? (y/n) :")
-		if isKeep.upper() == "Y":
-			return True
-		else:
-			return False
+		while True:
+			isKeep = input(f"\033[90m\n\b프로그램을 계속 하시겠습니까? (y/n) :").upper()
+			if isKeep not in ("Y", "N"):
+				print("y / n 만 입력가능합니다.")
+				continue
+			else:
+				if isKeep.upper() == "Y": 
+					return True
+				else: 
+					return False
 
 	
 	

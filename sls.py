@@ -52,10 +52,22 @@ def show_menu():
 				else:
 					printStopMsg()
 					break
+			else:
+				if lib.doContinue():
+					continue
+				else:
+					printStopMsg()
+					break
 		elif choice == "4":
 			selected = lib.show_books_for_choose("return")
 			if selected:
 				if lib.book_return(selected.isbn):
+					continue
+				else:
+					printStopMsg()
+					break
+			else:
+				if lib.doContinue():
 					continue
 				else:
 					printStopMsg()
@@ -79,14 +91,10 @@ def show_menu():
 				printStopMsg()
 				break
 		elif choice == "8":
-			yn = input("\033[90m\n프로그램을 종료하시겠습니까? (y/n):")
-			if yn.upper()=="Y":
-				printStopMsg()
-				break
-			else :
-				continue
+			printStopMsg()
+			break
 		else:
-			print("잘못된 입력입니다. 다시 선택하세요.")
+			print("\033[92m\n잘못된 입력입니다. 다시 선택하세요.")
 			continue
 	
 
