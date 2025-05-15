@@ -26,7 +26,7 @@ class Library:
 			file_path (str): 도서 정보를 저장하는 JSON 파일 경로 (기본값: "./files/books.json")
 		"""
 		self.file_path = file_path
-		self.books = {}
+		self.books = []
 		self.load_books()
 	
 	def load_books(self):
@@ -49,7 +49,7 @@ class Library:
 		with open(self.file_path, "w", encoding="utf-8") as f:
 			json.dump([b.convert_dict() for b in self.books], f, indent=2, ensure_ascii=False)
 	
-	def draw_box(self, items):
+	def draw_books(self, items):
 			
 		padding = 4
 		max_title = max(len(b.title) for b in items)
@@ -124,7 +124,7 @@ class Library:
 		현재 대여 가능한 책 목록을 출력합니다.
 		"""
 		books_list = [b for b in self.books if not b.rented]
-		available_books = self.draw_box(books_list)
+		available_books = self.draw_books(books_list)
 		if not available_books:
 			print("대여 가능한 도서가 없습니다.")
 		
@@ -140,6 +140,8 @@ class Library:
 		Returns:
 			Book: 사용자가 선택한 Book 객체
 		"""
+		print("\n\n     책")
+
 		if forWhat == "rent":
 			books_list = [b for b in self.books if not b.rented]
 		elif forWhat == "return":
@@ -153,7 +155,7 @@ class Library:
 			print("목록이 없습니다.")
 			return
 		
-		self.draw_box(books_list)
+		self.draw_books(books_list)
 		while True:
 			try:
 				sel = int(input("번호 선택: "))
@@ -249,7 +251,7 @@ class Library:
 						print("목록이 없습니다.")
 						break
 					
-					self.draw_box(books_list)
+					self.draw_books(books_list)
 
 				else :
 					print("없는 번호 입니다.")
