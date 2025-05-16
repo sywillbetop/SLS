@@ -30,15 +30,6 @@ class Book:
         self.rented = rented
         self.rent_count = rent_count
 
-    def __str__(self):
-        """
-        도서 정보를 문자열로 반환합니다.
-
-        Returns:
-            str: 도서명, 저자, 출판일, ISBN, 대여 상태를 포함한 문자열
-        """
-        return f"{self.title} / {self.author} / {self.published} / {self.isbn} / {'대여중' if self.rented else '대여가능'}"
-
     def book_rent(self):
         """도서를 대여 처리합니다."""
         self.rented = True
