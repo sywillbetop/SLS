@@ -5,15 +5,15 @@
     "published": "20250422",
     "isbn": "9788901294742",
     "rented": false,
-    "rent_count": 0
+    "rent_count": 1
   },
   {
     "title": "점프 투 파이썬",
     "author": "박응용",
     "published": "20230615",
     "isbn": "9791163034735",
-    "rented": false,
-    "rent_count": 2
+    "rented": true,
+    "rent_count": 3
   },
   {
     "title": "부의 전략 수업",
@@ -28,8 +28,8 @@
     "author": "로버트 C. 마틴",
     "published": "20131224",
     "isbn": "9788966260959",
-    "rented": false,
-    "rent_count": 4
+    "rented": true,
+    "rent_count": 7
   },
   {
     "title": "궁극의 아이",
@@ -37,21 +37,13 @@
     "published": "20130308",
     "isbn": "9788954620680",
     "rented": false,
-    "rent_count": 0
+    "rent_count": 1
   },
   {
     "title": "자바의 정석",
     "author": "남궁성",
     "published": "20080310",
     "isbn": "9788995379431",
-    "rented": false,
-    "rent_count": 0
-  },
-  {
-    "title": "수학의 정석",
-    "author": "대",
-    "published": "20240215",
-    "isbn": "9791156200413",
     "rented": false,
     "rent_count": 0
   }

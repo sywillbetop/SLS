@@ -40,14 +40,12 @@ class Book:
         return f"{self.title} / {self.author} / {self.published} / {self.isbn} / {'대여중' if self.rented else '대여가능'}"
 
     def book_rent(self):
-        """도서를 대여 처리하고 대여 완료 메시지를 출력합니다."""
+        """도서를 대여 처리합니다."""
         self.rented = True
-        print(f"\n\033[96m[ {self.title} ] 대여 완료되었습니다.")
 
     def book_return(self):
-        """도서 반납 처리하고 반납 완료 메시지를 출력합니다."""
+        """도서 반납 처리합니다."""
         self.rented = False
-        print(f"\n\033[96m[ {self.title} ] 반납 완료되었습니다.")
 
     def convert_dict(self):
         """도서 정보를 딕셔너리 형태로 변환합니다.
