@@ -7,7 +7,7 @@
 	6개의 메뉴로 구성된다. 
 	더 추가하고 싶은 기능이 있다면 추가하여 동작시키기 바란다
 '''
-from library import Library, menu, info, normal, warn, quest
+from library import Library, menu, select, normal, warn, quest
 from book import Book
 
 # Library 인스턴스 생성
@@ -52,7 +52,7 @@ def show_menu():
 		print(f"│{'│':>32}")
 		print(f"└"+"─"*31+"┘")
 
-		info("\n메뉴 번호를 입력하세요 ▷▷")
+		select("\n메뉴 번호를 입력하세요 ▷▷")
 		choice = input()
 		
 		if choice == "1":

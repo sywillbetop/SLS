@@ -94,6 +94,7 @@ class Library:
 		available_books = self.draw_books(books_list)
 		if not available_books:
 			warn("※ 대여 가능한 도서가 없습니다. ※")
+			return False
 
 		
 	def show_books_for_choose(self, forWhat):
@@ -138,16 +139,17 @@ class Library:
 		대여 성공 시 대여 횟수를 증가시키고 저장합니다.
 		"""
 		selected = self.show_books_for_choose("rent")
-		for b in self.books:
-			if b.isbn == selected.isbn:
-				if not b.rented:
-					b.book_rent()
-					b.rent_count += 1
-					self.update_books()
-					complete(f"{b.title} ] 대여 완료되었습니다.")
-				else:
-					warn("※ 이미 대여중인 도서입니다. ※")
-					return
+		if selected:
+			for b in self.books:
+				if b.isbn == selected.isbn:
+					if not b.rented:
+						b.book_rent()
+						b.rent_count += 1
+						self.update_books()
+						complete(f"【 {b.title} 】 대여 완료되었습니다.")
+					else:
+						warn("※ 이미 대여중인 도서입니다. ※")
+						return
  
 		
 	def book_return(self):
@@ -157,15 +159,16 @@ class Library:
 		반납 성공 시 대여 횟수를 증가시키고 저장합니다.
 		"""
 		selected = self.show_books_for_choose("return")
-		for b in self.books:
-			if b.isbn == selected.isbn:
-				if b.rented:
-					b.book_return()
-					self.update_books()
-					complete(f"{b.title} ] 반납 완료되었습니다.")
-				else:
-					warn("※ 이미 반납되어있습니다 ※")
-					return
+		if selected:
+			for b in self.books:
+				if b.isbn == selected.isbn:
+					if b.rented:
+						b.book_return()
+						self.update_books()
+						complete(f"【 {b.title} 】 반납 완료되었습니다.")
+					else:
+						warn("※ 이미 반납되어있습니다 ※")
+						return
  
 
 	def add_books(self):
@@ -175,7 +178,7 @@ class Library:
 		Args:
 			book (Book): 추가할 Book 객체
 		"""
-		info("↓ 추가할 도서의 정보를 입력해주세요 ↓\n")
+		info("↓ 추가할 도서의 정보를 입력해주세요 ↓")
 		answer("▶︎ 도서명:")
 		title = input()
 		answer("▶︎ 저자:")
@@ -228,7 +231,7 @@ class Library:
   
 		rank = sorted(self.books, key=lambda b: b.rent_count, reverse=True)
 		
-		info(f"{'。':>13}{'。':>4}{'。':>4}")
+		select(f"{'。':>13}{'。':>4}{'。':>4}\n")
 		print(f"{'│＼':>14}{'／':>1}{'＼':>2}{'／│':>1}")
 		print(f"{'│':>13}{'│':>10}")
 		print(f"{'대여 랭킹 TOP 5':>21}")   
@@ -245,7 +248,7 @@ class Library:
 			type (str): "1"이면 도서명 기준, 그 외는 저자명 기준 검색
 			keyword (str): 검색할 키워드 문자열
 		"""
-		select("↓ 검색할 항목을 선택해주세요. ↓")
+		info("↓ 검색할 항목을 선택해주세요. ↓")
 		while True:
 			try:
 				answer(f"1. 제목 / 2. 저자: ")
@@ -302,12 +305,12 @@ def formatting_msg(type, msg):
 	return f"\033[{code}m{msg}"
 
 def normal(msg): print(formatting_msg("normal", msg))		
-def warn(msg): print(formatting_msg("warn", msg))
-def info(msg): print(formatting_msg("info", msg), end=' ')
-def select(msg): print(formatting_msg("select", msg))
-def answer(msg): print(formatting_msg("answer", msg), end=' ')
+def warn(msg): print("\n"+formatting_msg("warn", msg))
+def info(msg): print("\n"+formatting_msg("info", msg)+"\n")
+def select(msg): print(formatting_msg("select", msg), end=' ')
+def answer(msg): print("\n"+formatting_msg("answer", msg), end=' ')
 def complete(msg): print(formatting_msg("complete", msg))
-def quest(msg): print(formatting_msg("quest", msg), end=' ')
+def quest(msg): print("\n"+formatting_msg("quest", msg), end=' ')
 def menu(msg): print(formatting_msg("menu", msg))
 	
 

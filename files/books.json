@@ -5,7 +5,7 @@
     "published": "20250422",
     "isbn": "9788901294742",
     "rented": false,
-    "rent_count": 1
+    "rent_count": 2
   },
   {
     "title": "점프 투 파이썬",
@@ -20,8 +20,8 @@
     "author": "폴 포돌스키",
     "published": "20250507",
     "isbn": "9791193262474",
-    "rented": false,
-    "rent_count": 0
+    "rented": true,
+    "rent_count": 1
   },
   {
     "title": "클린 코드",
@@ -37,14 +37,14 @@
     "published": "20130308",
     "isbn": "9788954620680",
     "rented": false,
-    "rent_count": 1
+    "rent_count": 2
   },
   {
     "title": "자바의 정석",
     "author": "남궁성",
     "published": "20080310",
     "isbn": "9788995379431",
-    "rented": false,
-    "rent_count": 0
+    "rented": true,
+    "rent_count": 1
   }
 ]
