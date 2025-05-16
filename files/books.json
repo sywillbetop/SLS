@@ -29,7 +29,7 @@
     "published": "20131224",
     "isbn": "9788966260959",
     "rented": false,
-    "rent_count": 0
+    "rent_count": 2
   },
   {
     "title": "궁극의 아이",
@@ -48,18 +48,10 @@
     "rent_count": 0
   },
   {
-    "title": "빛과 실",
-    "author": "한강",
-    "published": "20250418",
-    "isbn": "9788932043562",
-    "rented": false,
-    "rent_count": 0
-  },
-  {
-    "title": "빛과 실",
-    "author": "한강",
-    "published": "20250403",
-    "isbn": "950121851845",
+    "title": "수학의 정석",
+    "author": "대",
+    "published": "20240215",
+    "isbn": "9791156200413",
     "rented": false,
     "rent_count": 0
   }

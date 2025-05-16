@@ -65,7 +65,7 @@ class Library:
 		print(f"\033[0m{'─'*90}")
 		print(f"{('순위' if isRanking else 'No'):<5}", end=' ')
 		print(f"{'도서명':<{max_title}}", end=' ')
-		print(f"{'':<{max_title}}{'저자':<{max_author}}", end=' ')
+		print(f"{'':<{max_title+2}}{'저자':<{max_author}}", end=' ')
 		print(f"{'':<{max_author+2}}{'출판일':<{max_pub}}", end=' ')
 		print(f"{'':<{max_pub}}{'ISBN':<{max_isbn}}")
 		print(f"{'─'*90}")
@@ -79,8 +79,11 @@ class Library:
 				print(f"\033[0m{idx:<5}", end=' ')
 			idx+=1
 			for i, item in enumerate([b.title, b.author, b.published, b.isbn]):
-				pad = max_width[i]-len(item)
-				print(f"{item}{' '*(max_width[i]+pad):<0}", end=' ')
+				if i==0:
+					print(f"{item:<{max_width[i]}}", end=' ')
+				else:
+					pad = max_width[i]-len(item)
+					print(f"{' ':>{len(item)+pad}}{item:<{max_width[i]}}", end=' ')
 			print()
 		return items
 
@@ -216,6 +219,7 @@ class Library:
 				sel = int(input("\033[95m번호 선택: "))
 				if 1 <= sel <= len(self.books):
 					removed_book = books_list.pop(sel - 1)
+					self.books.remove(removed_book) # 실질적 제거
 					print(f"\n\033[96m[ {removed_book.title} ] 제거 완료되었습니다.")
 					self.update_books()
 					break
@@ -282,9 +286,9 @@ class Library:
   
   
 	@staticmethod	
-	def doContinue():
+	def doContinue(ac='계속'):
 		while True:
-			isKeep = input(f"\033[90m\n\b프로그램을 계속 하시겠습니까? (y/n) :").upper()
+			isKeep = input(f"\033[90m\n\b프로그램을 {ac} 하시겠습니까? (y/n) :").upper()
 			if isKeep not in ("Y", "N"):
 				print("y / n 만 입력가능합니다.")
 				continue

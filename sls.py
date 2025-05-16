@@ -91,8 +91,11 @@ def show_menu():
 				printStopMsg()
 				break
 		elif choice == "8":
-			printStopMsg()
-			break
+			if not lib.doContinue('종료'):
+				continue
+			else :
+				printStopMsg()
+				break
 		else:
 			print("\033[92m\n잘못된 입력입니다. 다시 선택하세요.")
 			continue
