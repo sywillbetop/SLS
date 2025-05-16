@@ -68,7 +68,6 @@ class Library:
 		print(f"{'':<{max_pub}}{'ISBN':<{max_isbn}}")
 		print(f"{'─'*90}")
 		
-		isHead = False
 		idx = 1
 		for b in items:
 			if isRanking:
