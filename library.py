@@ -136,17 +136,15 @@ class Library:
 			except ValueError:
 				print("\033[91m\n!! 숫자만 입력해주세요 !!")
     
-	def rent(self, isbn):
+	def rent(self):
 		"""
 		ISBN에 해당하는 책을 대여 처리합니다.
 		이미 대여 중인 경우 안내 메시지를 출력합니다.
 		대여 성공 시 대여 횟수를 증가시키고 저장합니다.
-		
-		Args:
-			isbn (str): 대여할 책의 ISBN 번호
 		"""
+		selected = self.show_books_for_choose("rent")
 		for b in self.books:
-			if b.isbn == isbn:
+			if b.isbn == selected.isbn:
 				if not b.rented:
 					b.book_rent()
 					b.rent_count += 1
@@ -157,17 +155,15 @@ class Library:
  
 				return self.doContinue()
 		
-	def book_return(self, isbn):
+	def book_return(self):
 		"""
 		ISBN에 해당하는 책을 반납 처리합니다.
 		이미 반납된 책인 경우 안내 메시지를 출력합니다.
 		반납 성공 시 대여 횟수를 증가시키고 저장합니다.
-		
-		Args:
-			isbn (str): 반납할 책의 ISBN 번호
 		"""
+		selected = self.show_books_for_choose("return")
 		for b in self.books:
-			if b.isbn == isbn:
+			if b.isbn == selected.isbn:
 				if b.rented:
 					b.book_return()
 					b.rent_count += 1
@@ -270,16 +266,16 @@ class Library:
 					
 					books_list = [b for b in self.books if(str(b.title if type==1 else b.author).find(keyword) != -1)]
 					if not books_list:
-						print("\033[91m\n※ 해당하는 도서가 없습니다 ※")
+						print("\n"+formatting_msg("warn","※ 해당하는 도서가 없습니다 ※"))
 						break
 					
 					self.draw_books(books_list)
 					break
 				else :
-					print("\033[91m!! 없는 번호 입니다 !!")
+					print(formatting_msg("warn","!! 없는 번호 입니다 !!")+"\n")
 					continue
 			except ValueError:
-				print("\033[91m!! 숫자만 입력해주세요 !!\n")
+				print(formatting_msg("warn","!! 숫자만 입력해주세요 !!")+"\n")
 				continue
 
 		return self.doContinue()
@@ -288,7 +284,7 @@ class Library:
 	@staticmethod	
 	def doContinue(ac='계속'):
 		while True:
-			isKeep = input(f"\033[90m\n\b프로그램을 {ac} 하시겠습니까? (y/n) :").upper()
+			isKeep = input(f"{formatting_msg('quest',f'프로그램을 {ac}하시겠습니까? (y/n) :')}").upper()
 			if isKeep not in ("Y", "N"):
 				print("y / n 만 입력가능합니다.")
 				continue
@@ -297,6 +293,44 @@ class Library:
 					return True
 				else: 
 					return False
+
+def formatting_msg(type, msg):
+	color_dict = {
+		"normal"	: 0,
+		"gray"		: 90,
+		"red"		: 91,
+		"green"		: 92,
+		"yellow"	: 93,
+		"blue"		: 94,
+		"purple"	: 95,
+		"skyblue"	: 96
+	}
+		
+	code = color_dict["normal"]
+
+	if type == "m_input":
+		code = color_dict["yellow"]
+	elif type == "input":
+		code = color_dict["purple"]
+	elif type == "warn":
+		code = color_dict["red"]
+	elif type == "complete":
+		code = color_dict["skyblue"]
+	elif type == "quest":
+		code = color_dict["gray"]
+	elif type == "menu":
+		code = color_dict["green"]
+	else :
+		if color_dict[type]:
+			code = color_dict[type]
+		
+	return f"\033[{code}m{msg}"
+	
+	
+
+			
+
+
 
 	
 	

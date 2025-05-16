@@ -10,11 +10,22 @@
 from library import Library
 from book import Book
 
+# Library 인스턴스 생성
 lib = Library()
 
+# 종료 메시지 출력 함수
 def printStopMsg():
-    print("\033[91m\n>>>>>>>> 프로그램을 종료합니다 <<<<<<<<<<\033[0m")
+    print("\033[91m\n>>>>>>>> 프로그램을 종료합니다 <<<<<<<<<<\033\n[0m")
 
+# 각 동작 후 결과에 따라 종료할지 여부 판단
+def ctrl_after_action(res):
+	if res:
+		return True
+	else:
+		printStopMsg()
+		return False
+
+# 메인 메뉴를 보여주고 사용자 입력을 처리하는 함수
 def show_menu():
 	while True:
 		print(f"\033[92m\n┌"+"─"*31+"┐")
@@ -31,77 +42,38 @@ def show_menu():
 		print(f"│{'(8) 종료':>10}{'│':>20}")
 		print(f"│{'│':>32}")
 		print(f"└"+"─"*31+"┘")
+
 		choice = input("\n\033[93m메뉴 번호를 입력하세요 ▷▷ ")
+		
 		if choice == "1":
-			if lib.show_books_available():
-				continue
-			else:
-				printStopMsg()
-				break
+			if not ctrl_after_action(lib.show_books_available()):
+				break	
 		elif choice == "2":
-			if lib.book_search():
-				continue
-			else:
-				printStopMsg()
+			if not ctrl_after_action(lib.book_search()):
 				break
 		elif choice == "3":
-			selected = lib.show_books_for_choose("rent")
-			if selected:
-				if lib.rent(selected.isbn):
-					continue
-				else:
-					printStopMsg()
-					break
-			else:
-				if lib.doContinue():
-					continue
-				else:
-					printStopMsg()
-					break
+			if not ctrl_after_action(lib.rent()):
+				break
 		elif choice == "4":
-			selected = lib.show_books_for_choose("return")
-			if selected:
-				if lib.book_return(selected.isbn):
-					continue
-				else:
-					printStopMsg()
-					break
-			else:
-				if lib.doContinue():
-					continue
-				else:
-					printStopMsg()
-					break
+			if not ctrl_after_action(lib.book_return()):
+				break
 		elif choice == "5":
-			if lib.add_books():
-				continue
-			else:
-				printStopMsg()
+			if not ctrl_after_action(lib.add_books()):
 				break
 		elif choice == "6":
-			if lib.remove_books():
-				continue
-			else:
-				printStopMsg()
+			if not ctrl_after_action(lib.remove_books()):
 				break
 		elif choice == "7":
-			if lib.show_books_most_rented():
-				continue
-			else:
-				printStopMsg()
+			if not ctrl_after_action(lib.show_books_most_rented()):
 				break
 		elif choice == "8":
-			if not lib.doContinue('종료'):
-				continue
-			else :
-				printStopMsg()
+			if not ctrl_after_action(not lib.doContinue('종료')):
 				break
 		else:
 			print("\033[92m\n잘못된 입력입니다. 다시 선택하세요.")
 			continue
 	
-
-
+# 프로그램 진입점 (이 파일 직접 실행 시 동작)
 if __name__ == "__main__":
     show_menu()
 
